@@ -7,7 +7,7 @@ async function getUserProfile(req, res, next) {
   const { uuid } = req.claims;
 
   try {
-    const userProfile = await connection.query(`SELECT fullName, linkedIn, avatar_url, description FROM users
+    const userProfile = await connection.query(`SELECT fullName, linkedIn, twitter, description FROM users
     WHERE uuid = '${uuid}'`);
     return res.status(200).send(userProfile[0]);
   } catch (e) {

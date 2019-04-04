@@ -15,7 +15,7 @@ async function validateSchema(payload) {
       .min(3)
       .required(),
     linkedIn: Joi.string(),
-    avatar_url: Joi.string(),
+    twitter: Joi.string(),
     description: Joi.string().max(800)
   };
 
@@ -33,7 +33,7 @@ async function updateUserProfile(req, res, next) {
     //  " update users set fullName=${} where uuid=374745338494r94";
     const mySqlQuery = `UPDATE users
     SET fullName = '${fullName}', linkedIn = '${linkedIn}', 
-    avatar_url = '${avatar_url}', description = '${description}' 
+    twitter = '${twitter}', description = '${description}' 
     WHERE uuid ='${uuid}'`;
     connection.query(mySqlQuery);
 
