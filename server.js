@@ -5,7 +5,7 @@ require('./databases/mongo-models/user');
 require("dotenv").config();
 const webServer = require("./webserver");
 const httpServerConfig = require("./config/http-server-config");
-const mysqlPool = require("./databases/mysql-pool");
+// const mysqlPool = require("./databases/mysql-pool");
 const mongoose = require('mongoose');
 
 
@@ -22,7 +22,7 @@ process.on("unhandledRejection", err => {
  * */
 (async function initApp() {
     try {
-    await mysqlPool.connect();
+    // await mysqlPool.connect();
         let dbName = 'heroku_fm4rqtg4';
         mongoose.connect(httpServerConfig.mongoDbUrl, { useNewUrlParser: true }, (err, res) => {
             if (err)

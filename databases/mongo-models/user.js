@@ -1,3 +1,5 @@
+'use strict';
+
 const mongoose = require('mongoose');
 
 
@@ -5,7 +7,7 @@ const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
-    name: {
+    fullName: {
         type: String,
         required: false
     },
@@ -17,6 +19,12 @@ let userSchema = new Schema({
     password: {
         type: String,
         required: [true, 'Password is required']
+    },
+    created_at: {
+        type: Date,
+    },
+    confirm_at: {
+        type: Date
     }
 });
 
