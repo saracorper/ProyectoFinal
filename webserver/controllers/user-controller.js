@@ -6,6 +6,7 @@ const UserService = require('../services/user-service');
 
 
 
+
 const app = express();
 
 app.post('/api-mongo/users', [ UserService.validate ], async (req, res) => {
@@ -27,7 +28,7 @@ app.post('/api-mongo/users', [ UserService.validate ], async (req, res) => {
     }
 });
 
-
+//update
 app.put('/api-mongo/users/:id', async(req, res) => {
 
     try {
@@ -54,6 +55,38 @@ app.put('/api-mongo/users/:id', async(req, res) => {
         return res.status(400).json({ message: err });
     }
 });
+
+app.get('/api-mongo/users/:id', async(req, res) => {
+
+    try {
+        let id = req.params.id;
+
+        let user = await User.findById(id).exec();
+
+        if(!user) {
+            return res.status(404).json({ message: 'El usuario no existe' });
+        }
+        
+        return res.status(200).json(user);
+
+    } catch (err) {
+        return res.status(400).json({ message: err });
+    }
+});
+
+app.get('/api-mongo/users', async(req, res) => {
+
+    try {
+
+        let usersDB = await User.find({}).exec();
+        
+        return res.status(200).json(usersDB);
+
+    } catch (err) {
+        return res.status(400).json({ message: err });
+    }
+});
+
 
 
 module.exports = app;
