@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('../../databases/mongo-models/user');
 const UserService = require('../services/user-service');
+const JWTService = require('../services/jwt-service');
 
 
 
@@ -29,7 +30,7 @@ app.post('/api-mongo/users', [ UserService.validate ], async (req, res) => {
 });
 
 //update
-app.put('/api-mongo/users/:id', async(req, res) => {
+app.put('/api-mongo/users/:id',[ JWTService.validate ], async(req, res) => {
 
     try {
 
@@ -56,7 +57,7 @@ app.put('/api-mongo/users/:id', async(req, res) => {
     }
 });
 
-app.get('/api-mongo/users/:id', async(req, res) => {
+app.get('/api-mongo/users/:id',[ JWTService.validate ], async(req, res) => {
 
     try {
         let id = req.params.id;
@@ -74,7 +75,7 @@ app.get('/api-mongo/users/:id', async(req, res) => {
     }
 });
 
-app.get('/api-mongo/users', async(req, res) => {
+app.get('/api-mongo/users',[ JWTService.validate ], async(req, res) => {
 
     try {
 
