@@ -25,7 +25,11 @@ let userSchema = new Schema({
     },
     confirm_at: {
         type: Date
-    }
+    },
+    posts: [{
+        type: Schema.Types.ObjectId,
+        ref: "post"
+    }]
 });
 
 userSchema.methods.toJSON = function () {

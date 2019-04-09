@@ -62,7 +62,7 @@ app.get('/api-mongo/users/:id',[ JWTService.validate ], async(req, res) => {
     try {
         let id = req.params.id;
 
-        let user = await User.findById(id).exec();
+        let user = await User.findById(id).populate({path: 'posts', model: 'post'}).exec();
 
         if(!user) {
             return res.status(404).json({ message: 'El usuario no existe' });

@@ -1,17 +1,25 @@
 'use strict';
 
+const User = require('../../databases/mongo-models/user')
 const Post = require('../../databases/mongo-models/post');
 const PostService = require('../services/post-service');
 const JWTService = require('../services/jwt-service');
 const express = require('express');
+
 
 const app = express();
 
 app.post('/api-mongo/:userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
-        let body = req.body;
         let userId = req.params.userId;
+        const userDB =  await User.findById(userId);
+
+        if(!userDB) {
+            return res.status(404).send({ message: ' El usuario no existe'});
+        }
+
+        let body = req.body;
         let post = new Post({
            author: userId, 
            picture_url: body.pictureUrl,
@@ -19,11 +27,15 @@ app.post('/api-mongo/:userId/posts', [ JWTService.validate, PostService.validate
         });
 
         if (body.title) post.title = body.title;
+        await post.save();
 
-        let newPostDb = await post.save();
-        return res.json(newPostDb);
+        userDB.posts.push(post._id);
+        await userDB.save();
+
+        return res.json(post);
     } catch (err) {
-        return res.status(400).json({ message: err });
+        let msg = err.message || err;
+        return res.status(400).json(msg);
     }
 });
 
