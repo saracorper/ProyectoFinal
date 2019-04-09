@@ -9,7 +9,7 @@ const express = require('express');
 
 const app = express();
 
-app.post('/api-mongo/:userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
+app.post('/api-mongo/users/userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
         let userId = req.params.userId;
@@ -35,18 +35,18 @@ app.post('/api-mongo/:userId/posts', [ JWTService.validate, PostService.validate
         return res.json(post);
     } catch (err) {
         let msg = err.message || err;
-        return res.status(400).json(msg);
+        return res.status(500).json(msg);
     }
 });
 
-app.put('/api-mongo/posts/:id', [ JWTService.validate, PostService.validate ], async (req, res) => {
+app.put('/api-mongo/users/:userId/posts/:id', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
         let body = req.body;
         let id = req.params.id;
-        let author = req.params.autor;
+        let author = req.params.userId;
 
-        let postDB = await Post.find({_id: id, author: author}).exec();
+        let postDB = await Post.findOne({_id: id, author: author}).exec();
 
         if(!postDB) {
             return res.status(404).json({ message: 'El post no existe' });
@@ -61,14 +61,15 @@ app.put('/api-mongo/posts/:id', [ JWTService.validate, PostService.validate ], a
         await postDB.save();
         return res.status(200).json(postDB);
         
-    } catch (error) {
-        return res.status(400).json({ message: err });
+    } catch (err) {
+        let msg = err.message || err;
+        return res.status(500).json(msg);
     }
 });
 
-app.get('/api-mongo/:userId/posts/:id', async(req, res) => {
+app.get('/api-mongo/users/:userId/posts/:id', async(req, res) => {
 
-    try {body.userId
+    try {
         let id = req.params.id;
 
         let post = await Post.findById(id).exec();
@@ -84,7 +85,7 @@ app.get('/api-mongo/:userId/posts/:id', async(req, res) => {
     }
 });
 
-app.get('/api-mongo/:userId/posts', async(req, res) => {
+app.get('/api-mongo/users/:userId/posts', async(req, res) => {
 
     try {
 
@@ -97,7 +98,7 @@ app.get('/api-mongo/:userId/posts', async(req, res) => {
     }
 });
 
-app.delete('/api-mongo/:userId/posts/:id', async(req, res) => {
+app.delete('/api-mongo/users/:userId/posts/:id', async(req, res) => {
     try {
         const id = req.params.id;
         
