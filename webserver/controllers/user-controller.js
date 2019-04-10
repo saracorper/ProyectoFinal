@@ -4,8 +4,7 @@ const bcrypt = require('bcrypt');
 const User = require('../../databases/mongo-models/user');
 const UserService = require('../services/user-service');
 const JWTService = require('../services/jwt-service');
-
-
+const { activateUser } = require ('../services/mail-service');
 
 
 const app = express();
@@ -19,13 +18,14 @@ app.post('/api-mongo/users', [ UserService.validate ], async (req, res) => {
             email: body.email,
             password: bcrypt.hashSync(body.password, 10),
             created_at: new Date()
-
         });
     
         let newUserDb = await user.save();
+
+        let mailData = await activateUser(user.id, user.email);
         return res.json(newUserDb);
     } catch (err) {
-        return res.status(400).json({ message: err });
+        return res.status(500).json({ message: err });
     }
 });
 
