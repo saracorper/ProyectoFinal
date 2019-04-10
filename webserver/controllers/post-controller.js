@@ -72,12 +72,13 @@ app.get('/api-mongo/users/:userId/posts/:id', async(req, res) => {
     try {
         let id = req.params.id;
 
-        let post = await Post.findById(id).exec();
+        let post = await Post.findById(id).populate("author").exec();
 
         if(!post) {
             return res.status(404).json({ message: 'El post no existe' });
         }
         
+        // delete post.author.posts;
         return res.status(200).json(post);
 
     } catch (err) {
@@ -88,8 +89,10 @@ app.get('/api-mongo/users/:userId/posts/:id', async(req, res) => {
 app.get('/api-mongo/users/:userId/posts', async(req, res) => {
 
     try {
+        let userId = req.params.userId;
+        let params = userId? { author : userId } : {};
 
-        let postsDB = await Post.find({}).exec();
+        let postsDB = await Post.find(params).exec();
         
         return res.status(200).json(postsDB);
 
@@ -97,6 +100,8 @@ app.get('/api-mongo/users/:userId/posts', async(req, res) => {
         return res.status(400).json({ message: err });
     }
 });
+
+
 
 app.delete('/api-mongo/users/:userId/posts/:id', async(req, res) => {
     try {
