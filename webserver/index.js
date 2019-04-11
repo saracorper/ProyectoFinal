@@ -41,7 +41,8 @@ app.use("/api", routes.accountRouter);
 app.use("/api", routes.userRouter);
 app.use(require("./controllers/user-controller"));
 app.use(require("./controllers/login-controller"));
-app.use(require('./controllers/post-controller'));
+app.use(require("./controllers/post-controller"));
+app.use(require("./controllers/picture-controller"));
 
 app.use("*", (req, res, next) => {
   return res.status(404).send({
