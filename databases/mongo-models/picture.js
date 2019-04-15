@@ -7,10 +7,8 @@ let Schema = mongoose.Schema;
 let pictureSchema = new Schema({
     url: {
         type: String,
-        unique: true,
-        required: [true, 'Url is required'],
+        unique: false
     }
-    
 });
 
 // pictureSchema.methods.toJSON = function () {
