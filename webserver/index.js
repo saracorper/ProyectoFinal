@@ -2,6 +2,7 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require('cors');
 
 
 const app = express();
@@ -12,27 +13,20 @@ app.use(bodyParser.json());
  * Enable CORS with a origin whitelist of valid domains
  * Step 1: Add CORS
  */
-app.use((req, res, next) => {
-  const accessControlAllowMethods = [];
+let allowedOrigins = ['http://localhost:4200'];
+app.use(cors({
+    origin: function (origin, callback) {
+              
+        if (!origin)
+            return callback(null, true);
 
-  const accessControlAllowHeaders = [
-    // fill the headers
-  ];
-
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Credentials", "true");
-  // Access-Control-Allow-Methods: put accessControlAllowHeaders separated by comma
-  res.header(
-    "Access-Control-Allow-Methods",
-    accessControlAllowMethods.join(",")
-  );
-  // put accessControlAllowHeaders separated by comma
-  res.header(
-    "Access-Control-Allow-Headers",
-    accessControlAllowHeaders.join(",")
-  );
-  next();
-});
+        if (allowedOrigins.indexOf(origin) === -1) {
+            let msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+            return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+    }
+}));
 
 /**
  * Add all routes
