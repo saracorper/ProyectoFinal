@@ -13,7 +13,7 @@ const JWTService = require("../services/jwt-service");
 const app = express();
 app.use(fileUpload());
 
-app.post("/api-mongo/pictures", [ JWTService.validate ], async (req, res) => {
+app.post("/api/pictures", [ JWTService.validate ], async (req, res) => {
 
     try {
         if (!req.files || !req.files.picture) 
@@ -37,7 +37,7 @@ app.post("/api-mongo/pictures", [ JWTService.validate ], async (req, res) => {
 });
 
 
-app.get("/api-mongo/pictures/:id", [ JWTService.validate ], async (req, res) => {
+app.get("/api/pictures/:id", [ JWTService.validate ], async (req, res) => {
 
     try {
         let id = req.params.id;
@@ -59,7 +59,7 @@ app.get("/api-mongo/pictures/:id", [ JWTService.validate ], async (req, res) => 
     }
 });
 
-// app.get("/api-mongo/pictures/:id", [ JWTService.validate ], multerDownload.any())
+// app.get("/api/pictures/:id", [ JWTService.validate ], multerDownload.any())
 
 // app.put()
 

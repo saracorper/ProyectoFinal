@@ -9,7 +9,7 @@ const express = require('express');
 
 const app = express();
 
-app.post('/api-mongo/users/userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
+app.post('/api/users/userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
         let userId = req.params.userId;
@@ -39,7 +39,7 @@ app.post('/api-mongo/users/userId/posts', [ JWTService.validate, PostService.val
     }
 });
 
-app.put('/api-mongo/users/:userId/posts/:id', [ JWTService.validate, PostService.validate ], async (req, res) => {
+app.put('/api/users/:userId/posts/:id', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
         let body = req.body;
@@ -67,7 +67,7 @@ app.put('/api-mongo/users/:userId/posts/:id', [ JWTService.validate, PostService
     }
 });
 
-app.get('/api-mongo/users/:userId/posts/:id', async(req, res) => {
+app.get('/api/users/:userId/posts/:id', async(req, res) => {
 
     try {
         let id = req.params.id;
@@ -86,7 +86,7 @@ app.get('/api-mongo/users/:userId/posts/:id', async(req, res) => {
     }
 });
 
-app.get('/api-mongo/users/:userId/posts', async(req, res) => {
+app.get('/api/users/:userId/posts', async(req, res) => {
 
     try {
         let userId = req.params.userId;
@@ -103,7 +103,7 @@ app.get('/api-mongo/users/:userId/posts', async(req, res) => {
 
 
 
-app.delete('/api-mongo/users/:userId/posts/:id', async(req, res) => {
+app.delete('/api/users/:userId/posts/:id', async(req, res) => {
     try {
         const id = req.params.id;
         

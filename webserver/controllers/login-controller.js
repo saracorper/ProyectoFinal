@@ -10,7 +10,7 @@ const ServerConfig = require("../../config/http-server-config");
 const app = express();
 
 
-app.post('/api-mongo/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
 
     try {
         let body = req.body;

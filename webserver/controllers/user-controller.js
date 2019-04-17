@@ -9,7 +9,7 @@ const { activateUser } = require ('../services/mail-service');
 
 const app = express();
 
-app.post('/api-mongo/users', [ UserService.validate ], async (req, res) => {
+app.post('/api/users', [ UserService.validate ], async (req, res) => {
 
     try {
 
@@ -30,7 +30,7 @@ app.post('/api-mongo/users', [ UserService.validate ], async (req, res) => {
 });
 
 //update
-app.put('/api-mongo/users/:id',[ JWTService.validate ], async(req, res) => {
+app.put('/api/users/:id',[ JWTService.validate ], async(req, res) => {
 
     try {
 
@@ -57,7 +57,7 @@ app.put('/api-mongo/users/:id',[ JWTService.validate ], async(req, res) => {
     }
 });
 
-app.get('/api-mongo/users/:id',[ JWTService.validate ], async(req, res) => {
+app.get('/api/users/:id',[ JWTService.validate ], async(req, res) => {
 
     try {
         let id = req.params.id;
@@ -75,7 +75,7 @@ app.get('/api-mongo/users/:id',[ JWTService.validate ], async(req, res) => {
     }
 });
 
-app.get('/api-mongo/users',[ JWTService.validate ], async(req, res) => {
+app.get('/api/users',[ JWTService.validate ], async(req, res) => {
 
     try {
 
