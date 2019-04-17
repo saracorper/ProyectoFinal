@@ -2,6 +2,7 @@
 
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
+var fs = require('fs');
 
 const cloudName = process.env.CLOUDINARI_CLOUD_NAME;
 const apiKey = process.env.CLOUDINARI_API_KEY;
@@ -14,21 +15,40 @@ cloudinary.config({
 });
 
 const upload = async (id, file) => {
+    
+    let tempPath = path.join('./tmp', file.name)
 
     try {
 
-        let tempPath = path.join('./tmp', file.name)
         await file.mv(tempPath)
-
+        
         return new Promise((resolve, reject) => {
-            cloudinary.uploader.upload(tempPath, (error, result) => {
-                if (error) 
-                    reject(error);
-                else
-                    resolve(result.secure_url);
-            });
+            cloudinary.uploader.upload(
+                tempPath, 
+                {
+                    resource_type: 'raw',
+                    public_id: id,
+                    width: 200,
+                    height: 200,
+                    format: 'jpg',
+                    crop: 'limit',
+                },
+                (error, result) => {
+                    fs.unlinkSync(tempPath); // Borra el archivo almacenado en la carpeta temp
+                    console.log('file deleted');
+                    if (error) 
+                        reject(error);
+                    else
+                        resolve(result.secure_url);
+                });
+                
         });
+        
+
+
     } catch (err) {
+        fs.unlinkSync(tempPath);
+        console.log('file deleted');
         throw err;
     }
 }
