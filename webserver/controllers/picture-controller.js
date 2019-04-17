@@ -1,4 +1,5 @@
 'use strict';
+
 const Picture = require('../../databases/mongo-models/picture');
 const fileUpload = require('express-fileupload');
 const FileService = require('../services/file-service');
@@ -17,7 +18,7 @@ app.post("/api-mongo/pictures", [ JWTService.validate ], async (req, res) => {
     try {
         if (!req.files || !req.files.picture) 
             return res.status(404).send({ message: 'No hay imagen' });
-
+            
         let newPicture = new Picture();
         await newPicture.save();
 
@@ -29,8 +30,32 @@ app.post("/api-mongo/pictures", [ JWTService.validate ], async (req, res) => {
 
         return res.json(newPicture);
     } catch (err) {
+
         console.log('err :', err);
         return res.status(500).json({ msg: err.message })
+    }
+});
+
+
+app.get("/api-mongo/pictures/:id", [ JWTService.validate ], async (req, res) => {
+
+    try {
+        let id = req.params.id;
+
+        let picture = await Picture.findById(id).exec();
+
+        if (!picture) {
+            return res.status(404).json({
+                message: 'No existe imagen'
+            });
+        }
+
+        return res.status(200).json(picture);
+
+    } catch (err) {
+        return res.status(500).json({
+            message: err
+        }); 
     }
 });
 
