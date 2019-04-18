@@ -1,8 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken')
 
 const User = require('../../databases/mongo-models/user');
 const UserService = require('../services/user-service');
+const ServerConfig = require('../../config/http-server-config')
 const JWTService = require('../services/jwt-service');
 const { activateUser } = require ('../services/mail-service');
 
@@ -22,7 +24,8 @@ app.post('/api/users', [ UserService.validate ], async (req, res) => {
     
         let newUserDb = await user.save();
 
-        let mailData = await activateUser(user.id, user.email);
+        let token = jwt.sign({ user: newUserDb }, ServerConfig.tokenSeed, { expiresIn: ServerConfig.tokenExpireTime });
+        let mailData = await activateUser(token, user.email);
         return res.json(newUserDb);
     } catch (err) {
         return res.status(500).json({ message: err });

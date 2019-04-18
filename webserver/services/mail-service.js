@@ -5,7 +5,7 @@ const config = require('../../config/http-server-config')
 
 
 
-let activateUser = async (userId, userEmail) => {  
+let activateUser = async (token, userEmail) => {  
     
   try {
     
@@ -19,7 +19,7 @@ let activateUser = async (userId, userEmail) => {
         },
         subject: "Heio",
         text: "Empieza a subir tus mejores fotos",
-        html: `Para confirmar la cuenta <a href="${ config.frontDomain }/activateUser/${ userId }">activate it here</a>`
+        html: `Para confirmar la cuenta <a href="${ config.frontDomain }/activate-account?token=${ token }">activate it here</a>`
     };
     
     const data = await sgMail.send(msg); 
