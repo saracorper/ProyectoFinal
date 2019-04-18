@@ -47,10 +47,10 @@ app.put('/api/users/:id',[ JWTService.validate ], async(req, res) => {
         }
          
         let fullName = body.fullName;
-        let confirm_at = body.confirm_at;
+        let confirmAt = body.confirmAt;
 
         userDB.fullName = (fullName)? fullName: userDB.fullName;
-        userDB.confirm_at = (confirm_at)? confirm_at: userDB.confirm_at;
+        userDB.confirm_at = (confirmAt)? confirmAt: userDB.confirm_at;
 
         await userDB.save();
         return res.status(200).json(userDB);
