@@ -4,11 +4,12 @@ const sgMail = require('@sendgrid/mail');
 const config = require('../../config/http-server-config')
 
 
+
 let activateUser = async (userId, userEmail) => {  
     
   try {
     
-    sgMail.setApiKey(config.sendgridApiKey);
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
     const msg = {
         to: userEmail,
