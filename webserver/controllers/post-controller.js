@@ -90,14 +90,14 @@ app.get('/api/users/:userId/posts', async(req, res) => {
 
     try {
         let userId = req.params.userId;
-        let params = userId? { author : userId } : {};
+        let params = userId !== 'all'? { author : userId } : {};
 
         let postsDB = await Post.find(params).exec();
         
         return res.status(200).json(postsDB);
 
     } catch (err) {
-        return res.status(400).json({ message: err });
+        return res.status(500).json({ message: err });
     }
 });
 
