@@ -9,7 +9,7 @@ const express = require('express');
 
 const app = express();
 
-app.post('/api/users/userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
+app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
         let userId = req.params.userId;
@@ -22,7 +22,7 @@ app.post('/api/users/userId/posts', [ JWTService.validate, PostService.validate 
         let body = req.body;
         let post = new Post({
            author: userId, 
-           picture_url: body.pictureUrl,
+           picture: body.picture,
            created_at: new Date()
         });
 
@@ -92,7 +92,7 @@ app.get('/api/users/:userId/posts', async(req, res) => {
         let userId = req.params.userId;
         let params = userId !== 'all'? { author : userId } : {};
 
-        let postsDB = await Post.find(params).exec();
+        let postsDB = await Post.find(params).populate('picture').exec();
         
         return res.status(200).json(postsDB);
 

@@ -6,7 +6,7 @@ let validate = (req, res, next) => {
     try {
         let body = req.body;
         const schema = {
-            pictureUrl: Joi.string().required(),
+            picture: Joi.string().required(),
             description: Joi.string()
                 .min(3)
                 .max(1000),
