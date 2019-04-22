@@ -2,32 +2,40 @@
 
 const sgMail = require('@sendgrid/mail');
 const config = require('../../config/http-server-config')
+var nodemailer = require('nodemailer'); // email sender function 
 
 
 
-let activateUser = async (token, userEmail) => {  
+let sendAccountConfirmation = async (token, userEmail) => {  
     
   try {
-    
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    const msg = {
-        to: userEmail,
-        from: {
-          email: "placadeplata@yopmail.com",
-          name: "PlacaDePlata :)"
-        },
-        subject: "Heio",
-        text: "Empieza a subir tus mejores fotos",
-        html: `Para confirmar la cuenta <a href="${ config.frontDomain }/activate-account?token=${ token }">activate it here</a>`
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: 'luapernas@gmail.com',
+        pass: 'Lolailo19'
+      }
+    });
+
+    var mailOptions = {
+      from: {
+              email: 'placadeplata@yopmail.com',
+              name: 'PlacaDePlata :)'
+            },
+      to: userEmail,
+      subject: 'Heio',
+      
+      html: `Para confirmar la cuenta <a href="${ config.frontDomain }/activate-account?token=${ token }">activate it here</a>`
     };
+
+    const data = await transporter.sendMail(mailOptions);
+    console.log(data);
     
-    const data = await sgMail.send(msg); 
-    return data;
   } catch (err) {
     throw err;
   }
 };
 
 
-module.exports = { activateUser };
+module.exports = { sendAccountConfirmation };

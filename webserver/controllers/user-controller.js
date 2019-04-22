@@ -6,7 +6,7 @@ const User = require('../../databases/mongo-models/user');
 const UserService = require('../services/user-service');
 const ServerConfig = require('../../config/http-server-config')
 const JWTService = require('../services/jwt-service');
-const { activateUser } = require ('../services/mail-service');
+const { sendAccountConfirmation } = require ('../services/mail-service');
 
 
 const app = express();
@@ -29,7 +29,7 @@ app.post('/api/users', [ UserService.validate ], async (req, res) => {
         let newUserDb = await user.save();
 
         let token = jwt.sign({ user: newUserDb }, ServerConfig.tokenSeed, { expiresIn: ServerConfig.tokenExpireTime });
-        // let mailData = await sendAccountConfirmation(token, user.email);
+        await sendAccountConfirmation(token, user.email);
         return res.json(newUserDb);
     } catch (err) {
         return res.status(500).json({ message: err });
