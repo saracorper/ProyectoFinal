@@ -16,6 +16,10 @@ app.post('/api/users', [ UserService.validate ], async (req, res) => {
     try {
 
         let body = req.body;
+        const existingUser= await User.findOne({email: body.email});
+
+        if(existingUser) return res.status(400).json({ message:'El email ya existe' });
+
         let user = new User({
             email: body.email,
             password: bcrypt.hashSync(body.password, 10),
@@ -25,7 +29,7 @@ app.post('/api/users', [ UserService.validate ], async (req, res) => {
         let newUserDb = await user.save();
 
         let token = jwt.sign({ user: newUserDb }, ServerConfig.tokenSeed, { expiresIn: ServerConfig.tokenExpireTime });
-        let mailData = await activateUser(token, user.email);
+        // let mailData = await sendAccountConfirmation(token, user.email);
         return res.json(newUserDb);
     } catch (err) {
         return res.status(500).json({ message: err });
