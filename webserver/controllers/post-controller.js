@@ -72,7 +72,7 @@ app.get('/api/users/:userId/posts/:id', async(req, res) => {
     try {
         let id = req.params.id;
 
-        let post = await Post.findById(id).populate("author").exec();
+        let post = await Post.findById(id).populate("author").populate("picture").exec();
 
         if(!post) {
             return res.status(404).json({ message: 'El post no existe' });
