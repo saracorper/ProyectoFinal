@@ -23,6 +23,7 @@ app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate
         let post = new Post({
            author: userId, 
            picture: body.picture,
+           description: body.description,
            created_at: new Date()
         });
 
