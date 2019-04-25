@@ -34,7 +34,14 @@ postSchema.methods.toJSON = function () {
     let post = this;
     let postObject = post.toObject();
     console.log('postObject :', postObject);
+
     
+    delete postObject.author.password;
+    delete postObject.author.created_at;
+    delete postObject.author.confirm_at;
+    postObject.author.fullName = postObject.author.full_name;
+    delete postObject.author.full_name;
+
     delete postObject.created_at;
     
     console.log('postObject :', postObject);
