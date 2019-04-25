@@ -7,7 +7,8 @@ let Schema = mongoose.Schema;
 let pictureSchema = new Schema({
     url: {
         type: String,
-        unique: false
+        unique: false,
+        default:''
     }
 });
 

@@ -16,6 +16,7 @@ app.use(fileUpload());
 app.post("/api/pictures", [ JWTService.validate ], async (req, res) => {
 
     try {
+
         if (!req.files || !req.files.picture) 
             return res.status(404).send({ message: 'No hay imagen' });
             
