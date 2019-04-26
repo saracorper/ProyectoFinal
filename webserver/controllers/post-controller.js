@@ -68,7 +68,7 @@ app.put('/api/users/:userId/posts/:id', [ JWTService.validate, PostService.valid
     }
 });
 
-app.get('/api/users/:userId/posts/:id', async(req, res) => {
+app.get('/api/users/:userId/posts/:id', [JWTService.validate], async (req, res) => {
 
     try {
         let id = req.params.id;
@@ -87,7 +87,7 @@ app.get('/api/users/:userId/posts/:id', async(req, res) => {
     }
 });
 
-app.get('/api/users/:userId/posts', async(req, res) => {
+app.get('/api/users/:userId/posts', [ JWTService.validate ], async (req, res) => {
 
     try {
         let userId = req.params.userId;
@@ -102,9 +102,7 @@ app.get('/api/users/:userId/posts', async(req, res) => {
     }
 });
 
-
-
-app.delete('/api/users/:userId/posts/:id', async(req, res) => {
+app.delete('/api/users/:userId/posts/:id', [JWTService.validate], async (req, res) => {
     try {
         const id = req.params.id;
         
