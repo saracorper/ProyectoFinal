@@ -50,13 +50,15 @@ app.put('/api/users/:id',[ JWTService.validate ], async(req, res) => {
             return res.status(404).json({ message: 'El usuario no existe' });
         }
          
-        let fullName = body.fullName;
-        let confirmAt = body.confirmAt;
+        const fullName = body.fullName;
+        const confirmAt = body.confirmAt;
         const email = body.email;
+        const avatar = body.avatar;
 
         userDB.full_name = (fullName)? fullName: userDB.full_name;
         userDB.confirm_at = (confirmAt)? confirmAt: userDB.confirm_at;
         userDB.email = (email)? email: userDB.email;
+        userDB.avatar = (avatar)? avatar: userDB.avatar;
 
         await userDB.save();
         return res.status(200).json(userDB);
@@ -71,7 +73,7 @@ app.get('/api/users/:id',[ JWTService.validate ], async(req, res) => {
     try {
         let id = req.params.id;
 
-        let user = await User.findById(id).populate({path: 'posts', model: 'post'}).exec();
+        let user = await User.findById(id).populate({path: 'posts', model: 'post'}).populate('avatar').exec();
 
         if(!user) {
             return res.status(404).json({ message: 'El usuario no existe' });
