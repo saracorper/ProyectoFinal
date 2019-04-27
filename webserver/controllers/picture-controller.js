@@ -60,8 +60,29 @@ app.get("/api/pictures/:id", [ JWTService.validate ], async (req, res) => {
     }
 });
 
-// app.get("/api/pictures/:id", [ JWTService.validate ], multerDownload.any())
+app.put("/api/pictures/:id", [JWTService.validate ], async (req, res) => {
+    try {
 
-// app.put()
+        const id = req.params.id;
+
+        if (!req.files || !req.files.picture)return res.status(404).send({message: 'No hay imagen'});
+
+        let pictureDB =  await Picture.findById(id);
+        if(!pictureDB ) return res.status(404).json({ message: 'No existe imagen'});
+
+        let pictureUrl = await FileService.upload(pictureDB._id, req.files.picture);
+
+        pictureDB.url = pictureUrl;
+        
+        await pictureDB.save();
+        return res.status(200).json(pictureDB);
+        
+    } catch (err) {
+        const msg = err.message || err;
+        return res.status(500).json(msg);
+    }
+});
+
+
 
 module.exports = app;
