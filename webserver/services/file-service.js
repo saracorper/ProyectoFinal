@@ -28,8 +28,6 @@ const upload = async (id, file) => {
                 {
                     resource_type: 'raw',
                     public_id: id,
-                    width: 200,
-                    height: 200,
                     format: 'jpg',
                     crop: 'limit',
                 },
