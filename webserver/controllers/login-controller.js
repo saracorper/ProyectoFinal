@@ -19,7 +19,8 @@ app.post('/api/login', async (req, res) => {
         let userDb = await User.findOne({ email: body.email }).exec();
         
         if (!userDb) return res.status(404).json({ message: 'Usuario no encontrado' });
-        if (!bcrypt.compareSync(body.password, userDb.password)) return res.status(400).json({ message: 'Contraseña incorrecta' });
+        if (userDb.deleted) return res.status(404).json({ message: 'Usuario no encontrado'});
+        if (!bcrypt.compareSync(body.password, userDb.password)) return res.status(400).json({ message: 'Credenciales incorrectas' });
         
         let token = jwt.sign({ user: userDb }, ServerConfig.tokenSeed, { expiresIn: ServerConfig.tokenExpireTime });
         

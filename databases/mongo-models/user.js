@@ -26,6 +26,10 @@ let userSchema = new Schema({
     confirm_at: {
         type: Date
     },
+    deleted: {
+        type: Boolean,
+        default: false
+    },
     posts: [{
         type: Schema.Types.ObjectId,
         ref: "post"

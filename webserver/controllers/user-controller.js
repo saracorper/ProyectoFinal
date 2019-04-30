@@ -90,7 +90,7 @@ app.get('/api/users',[ JWTService.validate ], async(req, res) => {
 
     try {
 
-        let usersDB = await User.find({}).exec();
+        const usersDB = await User.find({}).exec();
         
         return res.status(200).json(usersDB);
 
@@ -98,6 +98,28 @@ app.get('/api/users',[ JWTService.validate ], async(req, res) => {
         return res.status(400).json({ message: err });
     }
 });
+
+app.delete('/api/users/:id', [ JWTService.validate ], async(req, res) => {
+
+    try {
+
+        const id = req.params.id;
+        
+        let userDB = await User.findById(id).exec();
+
+        if (!userDB)return res.status(404).json({ message: 'El usuario no existe'});
+        
+        userDB.deleted = true; 
+
+        await userDB.save();
+
+        return res.status(200).send();
+
+    } catch (err) {
+        const msg = err.message || err;
+        return res.status(500).json(msg);
+    }
+})
 
 
 
