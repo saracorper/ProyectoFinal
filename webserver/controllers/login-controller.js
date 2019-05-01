@@ -9,9 +9,10 @@ const MailService = require('../services/mail-service');
 
 
 const app = express();
-
-
-
+ 
+/**
+*Search the user in the database and check if the user has the authorization
+*/
 app.post('/api/login', async (req, res) => {
     
     try {
@@ -33,23 +34,20 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+/**
+ * Re - send the email a new authorization for the user
+ */
 app.post('/api/login/refresh-link', async (req, res) => {
 
     try {
 
         const { email } = req.body;
-        
-        console.log('email :',email);
 
         const userDB = await User.findOne({ email: email }).exec();
-
-        console.log('user :', userDB);
 
         if (!userDB) return res.status(404).json({ message: 'El usuario no existe' });
         
         const token = jwt.sign({ user: userDB }, ServerConfig.tokenSeed, { expiresIn: ServerConfig.tokenExpireTime });
-
-        console.log(token);
         
         await MailService.sendAccountConfirmation(token, email);
         return res.status(200).send();

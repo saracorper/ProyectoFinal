@@ -2,6 +2,13 @@
 
 const Joi = require("joi");
 
+/**
+ * Validate if post data is valid to create post
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns {object} - returns the checked info of body
+ */
 let validate = (req, res, next) => {
     try {
         let body = req.body;

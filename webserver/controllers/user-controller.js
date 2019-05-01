@@ -11,6 +11,9 @@ const { sendAccountConfirmation } = require ('../services/mail-service');
 
 const app = express();
 
+/**
+ *Search user in database, check if it exists and if it does not exist create a new user and calculate the bcrypt password
+ */
 app.post('/api/users', [ UserService.validate ], async (req, res) => {
 
     try {
@@ -36,7 +39,9 @@ app.post('/api/users', [ UserService.validate ], async (req, res) => {
     }
 });
 
-//update
+/**
+ *Search user and update a user's information in the database
+ */
 app.put('/api/users/:id',[ JWTService.validate ], async(req, res) => {
 
     try {
@@ -68,6 +73,9 @@ app.put('/api/users/:id',[ JWTService.validate ], async(req, res) => {
     }
 });
 
+/**
+ *Search for a user in the database by the id
+ */
 app.get('/api/users/:id',[ JWTService.validate ], async(req, res) => {
 
     try {
@@ -86,6 +94,10 @@ app.get('/api/users/:id',[ JWTService.validate ], async(req, res) => {
     }
 });
 
+
+/**
+ *Searchs all users in de database
+ */
 app.get('/api/users',[ JWTService.validate ], async(req, res) => {
 
     try {
@@ -99,6 +111,9 @@ app.get('/api/users',[ JWTService.validate ], async(req, res) => {
     }
 });
 
+/**
+ *Delete user from the database
+ */
 app.delete('/api/users/:id', [ JWTService.validate ], async(req, res) => {
 
     try {

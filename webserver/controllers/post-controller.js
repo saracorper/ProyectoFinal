@@ -9,6 +9,10 @@ const express = require('express');
 
 const app = express();
 
+/**
+ *
+ Check user and insert a new post in the database
+ */
 app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
@@ -40,6 +44,9 @@ app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate
     }
 });
 
+/**
+ *Search post and update a post's information in the database
+ */
 app.put('/api/users/:userId/posts/:id', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
@@ -68,6 +75,9 @@ app.put('/api/users/:userId/posts/:id', [ JWTService.validate, PostService.valid
     }
 });
 
+/**
+ *Search for a post in the database by the id
+ */
 app.get('/api/users/:userId/posts/:id', [JWTService.validate], async (req, res) => {
 
     try {
@@ -87,6 +97,9 @@ app.get('/api/users/:userId/posts/:id', [JWTService.validate], async (req, res) 
     }
 });
 
+/**
+ * Search all post in de database
+ */
 app.get('/api/users/:userId/posts', [ JWTService.validate ], async (req, res) => {
 
     try {
@@ -102,6 +115,9 @@ app.get('/api/users/:userId/posts', [ JWTService.validate ], async (req, res) =>
     }
 });
 
+/**
+ * Delete post from the database
+ */
 app.delete('/api/users/:userId/posts/:id', [JWTService.validate], async (req, res) => {
     try {
         const id = req.params.id;

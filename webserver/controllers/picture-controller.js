@@ -13,6 +13,10 @@ const JWTService = require("../services/jwt-service");
 const app = express();
 app.use(fileUpload());
 
+
+/**
+ *Create a new picture and insert in the database
+ */
 app.post("/api/pictures", [ JWTService.validate ], async (req, res) => {
 
     try {
@@ -30,14 +34,15 @@ app.post("/api/pictures", [ JWTService.validate ], async (req, res) => {
         await newPicture.save();
 
         return res.json(newPicture);
+        
     } catch (err) {
-
-        console.log('err :', err);
         return res.status(500).json({ msg: err.message })
     }
 });
 
-
+/**
+ *Search picture in the database by the id
+ */
 app.get("/api/pictures/:id", [ JWTService.validate ], async (req, res) => {
 
     try {
@@ -60,6 +65,9 @@ app.get("/api/pictures/:id", [ JWTService.validate ], async (req, res) => {
     }
 });
 
+/**
+ *Search picture and update a picture's information in the database
+ */
 app.put("/api/pictures/:id", [JWTService.validate ], async (req, res) => {
     try {
 

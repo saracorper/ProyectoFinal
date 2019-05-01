@@ -2,6 +2,14 @@
 
 const Joi = require("joi");
 
+
+/**
+ * Validate if user data is valid to create an account
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns {object} - returns the checked info of body
+ */
 let validate = (req, res, next) => {
     
     try {
@@ -26,4 +34,4 @@ let validate = (req, res, next) => {
 
 module.exports = {
     validate
-}
+};

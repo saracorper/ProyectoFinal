@@ -5,6 +5,12 @@ const config = require('../../config/http-server-config')
 var nodemailer = require('nodemailer'); // email sender function 
 
 
+/**
+ * Send an email with a verification link to the user to activate the account
+ * @param {string} userEmail
+ * @param {string} token
+ * @return {object} Sengrid response
+ */
 
 let sendAccountConfirmation = async (token, userEmail) => {  
     
@@ -30,8 +36,7 @@ let sendAccountConfirmation = async (token, userEmail) => {
     };
 
     const data = await transporter.sendMail(mailOptions);
-    console.log(data);
-    
+    return data;
   } catch (err) {
     throw err;
   }

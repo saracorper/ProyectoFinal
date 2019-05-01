@@ -14,6 +14,12 @@ cloudinary.config({
   api_secret: apiSecret,
 });
 
+/**
+ * Uploads image to cloudinary
+ * @param {string} id 
+ * @param {object} file 
+ * @returns {Promise} URL valid
+ */
 const upload = async (id, file) => {
     
     let tempPath = path.join('./tmp', file.name)
@@ -32,8 +38,7 @@ const upload = async (id, file) => {
                     crop: 'limit',
                 },
                 (error, result) => {
-                    fs.unlinkSync(tempPath); // Borra el archivo almacenado en la carpeta temp
-                    console.log('file deleted');
+                    fs.unlinkSync(tempPath); // Delete file from temp dir
                     if (error) 
                         reject(error);
                     else
@@ -46,7 +51,6 @@ const upload = async (id, file) => {
 
     } catch (err) {
         fs.unlinkSync(tempPath);
-        console.log('file deleted');
         throw err;
     }
 }
