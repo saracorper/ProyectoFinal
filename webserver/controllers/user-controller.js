@@ -81,7 +81,12 @@ app.get('/api/users/:id',[ JWTService.validate ], async(req, res) => {
     try {
         let id = req.params.id;
 
-        let user = await User.findById(id).populate({path: 'posts', model: 'post'}).populate('avatar').exec();
+        let user = await User.findById(id).populate({
+            path: 'posts',
+            populate: ({
+                path: 'picture'
+            })
+        }).populate('avatar').exec();
 
         if(!user) {
             return res.status(404).json({ message: 'El usuario no existe' });
