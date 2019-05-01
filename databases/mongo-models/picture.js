@@ -15,12 +15,9 @@ const pictureSchema = new Schema({
 // pictureSchema.methods.toJSON = function () {
 //     let picture = this;
 //     let pictureObject = picture.toObject();
-//     console.log('pictureObject :', pictureObject);
 
 //     pictureObject.pictureUrl = pictureObject.picture_url;
-    
-    
-//     console.log('pictureObject :', pictureObject);
+
 //     return pictureObject;
 // }
 
