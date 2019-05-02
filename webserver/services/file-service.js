@@ -2,7 +2,7 @@
 
 const cloudinary = require('cloudinary').v2;
 const path = require('path');
-var fs = require('fs');
+const fs = require('fs');
 
 const cloudName = process.env.CLOUDINARI_CLOUD_NAME;
 const apiKey = process.env.CLOUDINARI_API_KEY;
@@ -22,7 +22,7 @@ cloudinary.config({
  */
 const upload = async (id, file) => {
     
-    let tempPath = path.join('./tmp', file.name)
+    const tempPath = path.join('./tmp', file.name)
 
     try {
 

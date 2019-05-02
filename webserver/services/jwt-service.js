@@ -11,7 +11,7 @@ const config = require('../../config/http-server-config');
  * @param next 
  * @returns JSON - Describes if token is validated
  */
-let validate = async (req, res, next) => {
+const validate = async (req, res, next) => {
     const token = req.get('JWTtoken'); 
 
     if (!token) {
@@ -19,11 +19,11 @@ let validate = async (req, res, next) => {
     }
 
     try {
-        let decoded = await jwt.verify(token, config.tokenSeed);
+        const decoded = await jwt.verify(token, config.tokenSeed);
         req.user = decoded.user;
         next();
     } catch (e) {
-        let msg = e.message || e;
+        const msg = e.message || e;
         return res.status(401).json({ message: msg });
     }
 }

@@ -16,15 +16,15 @@ const app = express();
 app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
-        let userId = req.params.userId;
+        const userId = req.params.userId;
         const userDB =  await User.findById(userId);
 
         if(!userDB) {
             return res.status(404).send({ message: ' El usuario no existe'});
         }
 
-        let body = req.body;
-        let post = new Post({
+        const body = req.body;
+        const post = new Post({
            author: userId, 
            picture: body.picture,
            description: body.description,
@@ -39,7 +39,7 @@ app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate
 
         return res.json(post);
     } catch (err) {
-        let msg = err.message || err;
+        const msg = err.message || err;
         return res.status(500).json(msg);
     }
 });
@@ -122,17 +122,20 @@ app.delete('/api/users/:userId/posts/:id', [JWTService.validate], async (req, re
     try {
         const id = req.params.id;
         
-        const post = await Post.deleteOne(id).exec();
+        const postDB = await Post.deleteOne(id).exec();
 
-        if (!post) {
+        if (!postDB) {
             return res.status(404).send({message: "El post no existe"});
         }
 
-        //hacer borrado logico añadiendop a post la propiedad 'borrado : true'
+        postDB.deleted = true;
+        
+        await postDB.save();
 
-        return res.status(200).send({message: "Post eliminado"})
+        return res.status(200).send();
     } catch (err) {
-        return res.status(500).send({message: err});
+        const msg = err.message || err;
+        return res.status(500).json(msg);
     }
 });
 

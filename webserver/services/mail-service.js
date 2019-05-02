@@ -1,8 +1,7 @@
 'use strict';
 
-const sgMail = require('@sendgrid/mail');
 const config = require('../../config/http-server-config')
-var nodemailer = require('nodemailer'); // email sender function 
+const nodemailer = require('nodemailer'); // email sender function 
 
 
 /**
@@ -24,7 +23,7 @@ let sendAccountConfirmation = async (token, userEmail) => {
       }
     });
 
-    var mailOptions = {
+    const mailOptions = {
       from: {
               email: 'placadeplata@yopmail.com',
               name: 'PlacaDePlata :)'

@@ -79,9 +79,9 @@ app.put('/api/users/:id',[ JWTService.validate ], async(req, res) => {
 app.get('/api/users/:id',[ JWTService.validate ], async(req, res) => {
 
     try {
-        let id = req.params.id;
+        const id = req.params.id;
 
-        let user = await User.findById(id).populate({
+        const user = await User.findById(id).populate({
             path: 'posts',
             populate: ({
                 path: 'picture'
@@ -125,7 +125,7 @@ app.delete('/api/users/:id', [ JWTService.validate ], async(req, res) => {
 
         const id = req.params.id;
         
-        let userDB = await User.findById(id).exec();
+        const userDB = await User.findById(id).exec();
 
         if (!userDB)return res.status(404).json({ message: 'El usuario no existe'});
         

@@ -10,10 +10,10 @@ const Joi = require("joi");
  * @param next 
  * @returns {object} - returns the checked info of body
  */
-let validate = (req, res, next) => {
+const validate = (req, res, next) => {
     
     try {
-        let body = req.body;
+        const body = req.body;
         const schema = {
             email: Joi.string()
                 .email({ minDomainAtoms: 2 })

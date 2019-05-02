@@ -24,11 +24,11 @@ app.post("/api/pictures", [ JWTService.validate ], async (req, res) => {
         if (!req.files || !req.files.picture) 
             return res.status(404).send({ message: 'No hay imagen' });
             
-        let newPicture = new Picture();
+        const newPicture = new Picture();
         await newPicture.save();
 
-        let picture = req.files.picture;
-        let pictureUrl = await FileService.upload(newPicture._id, picture)
+        const picture = req.files.picture;
+        const pictureUrl = await FileService.upload(newPicture._id, picture)
 
         newPicture.url = pictureUrl;
         await newPicture.save();
@@ -46,9 +46,9 @@ app.post("/api/pictures", [ JWTService.validate ], async (req, res) => {
 app.get("/api/pictures/:id", [ JWTService.validate ], async (req, res) => {
 
     try {
-        let id = req.params.id;
+        const id = req.params.id;
 
-        let picture = await Picture.findById(id).exec();
+        const picture = await Picture.findById(id).exec();
 
         if (!picture) {
             return res.status(404).json({

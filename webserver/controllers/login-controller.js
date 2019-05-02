@@ -16,14 +16,14 @@ const app = express();
 app.post('/api/login', async (req, res) => {
     
     try {
-        let body = req.body;
-        let userDb = await User.findOne({ email: body.email }).exec();
+        const body = req.body;
+        const userDb = await User.findOne({ email: body.email }).exec();
         
         if (!userDb) return res.status(404).json({ message: 'Usuario no encontrado' });
         if (userDb.deleted) return res.status(404).json({ message: 'Usuario no encontrado'});
         if (!bcrypt.compareSync(body.password, userDb.password)) return res.status(400).json({ message: 'Credenciales incorrectas' });
         
-        let token = jwt.sign({ user: userDb }, ServerConfig.tokenSeed, { expiresIn: ServerConfig.tokenExpireTime });
+        const token = jwt.sign({ user: userDb }, ServerConfig.tokenSeed, { expiresIn: ServerConfig.tokenExpireTime });
         
         return res.status(200).json({
             user: userDb,
