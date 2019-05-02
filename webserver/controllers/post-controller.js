@@ -17,14 +17,15 @@ app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate
 
     try {
         const userId = req.params.userId;
-        const userDB =  await User.findById(userId);
+
+        let userDB =  await User.findById(userId);
 
         if(!userDB) {
             return res.status(404).send({ message: ' El usuario no existe'});
         }
 
         const body = req.body;
-        const post = new Post({
+        let post = new Post({
            author: userId, 
            picture: body.picture,
            description: body.description,
@@ -50,9 +51,9 @@ app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate
 app.put('/api/users/:userId/posts/:id', [ JWTService.validate, PostService.validate ], async (req, res) => {
 
     try {
-        let body = req.body;
-        let id = req.params.id;
-        let author = req.params.userId;
+        const body = req.body;
+        const id = req.params.id;
+        const author = req.params.userId;
 
         let postDB = await Post.findOne({_id: id, author: author}).exec();
 
@@ -81,9 +82,9 @@ app.put('/api/users/:userId/posts/:id', [ JWTService.validate, PostService.valid
 app.get('/api/users/:userId/posts/:id', [JWTService.validate], async (req, res) => {
 
     try {
-        let id = req.params.id;
+        const id = req.params.id;
 
-        let post = await Post.findById(id).populate("author").populate("picture").exec();
+        const post = await Post.findById(id).populate("author").populate("picture").exec();
 
         if(!post) {
             return res.status(404).json({ message: 'El post no existe' });
@@ -103,7 +104,7 @@ app.get('/api/users/:userId/posts/:id', [JWTService.validate], async (req, res) 
 app.get('/api/users/:userId/posts', [ JWTService.validate ], async (req, res) => {
 
     try {
-        let userId = req.params.userId;
+        const userId = req.params.userId;
         let params = userId !== 'all'? { author : userId } : {};
 
         let postsDB = await Post.find(params).populate('picture').exec();
