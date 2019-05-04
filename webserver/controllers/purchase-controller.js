@@ -46,13 +46,13 @@ app.post('/api/users/:userId/purchases', async (req, res) => {
     }
 });
 
-app.get('/api/users/:userId/posts/:postId/purchases', async (req, res) => {
+app.get('/api/users/:userId/purchases', async (req, res) => {
 
     try {
         const userId = req.params.userId;
         const params = userId !== 'all' ? { buyer: userId } : {};
 
-        let purchasesDB = await Purchase.find(params).exec();
+        let purchasesDB = await Purchase.find(params).populate('buyer').populate('post_id').exec();
 
         return res.status(200).json(purchasesDB);
     } catch (err) {
