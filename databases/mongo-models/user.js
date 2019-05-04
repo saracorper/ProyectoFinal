@@ -37,7 +37,16 @@ const userSchema = new Schema({
     avatar: {
         type: Schema.Types.ObjectId,
         ref:"picture"
-    }
+    },
+    purchases: [{
+        type: Schema.Types.ObjectId,
+        ref: "purchase"
+    }],
+    sales: [{
+        type: Schema.Types.ObjectId,
+        ref: "purchase"
+    }]
+
 });
 
 userSchema.methods.toJSON = function () {

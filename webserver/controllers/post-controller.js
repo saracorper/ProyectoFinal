@@ -107,7 +107,7 @@ app.get('/api/users/:userId/posts', [ JWTService.validate ], async (req, res) =>
         const userId = req.params.userId;
         let params = userId !== 'all'? { author : userId } : {};
 
-        let postsDB = await Post.find(params).populate('picture').exec();
+        const postsDB = await Post.find(params).populate('picture').exec();
         
         return res.status(200).json(postsDB);
 
