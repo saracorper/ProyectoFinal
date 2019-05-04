@@ -3,12 +3,14 @@
 const Purchase = require('../../databases/mongo-models/purchase');
 const Post = require('../../databases/mongo-models/post');
 const User = require('../../databases/mongo-models/user');
+const JWTService = require('../services/jwt-service');
+
 const express = require('express');
 
 
 const app = express();
 
-app.post('/api/users/:userId/purchases', async (req, res) => {
+app.post('/api/users/:userId/purchases', [JWTService.validate], async (req, res) => {
 
     try {
         const userId = req.params.userId;
@@ -46,7 +48,7 @@ app.post('/api/users/:userId/purchases', async (req, res) => {
     }
 });
 
-app.get('/api/users/:userId/purchases', async (req, res) => {
+app.get('/api/users/:userId/purchases', [JWTService.validate], async (req, res) => {
 
     try {
         const userId = req.params.userId;
