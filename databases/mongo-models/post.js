@@ -24,6 +24,9 @@ const postSchema = new Schema({
     description: {
         type: String
     },
+    price: {
+        type: Number
+    },
     created_at: {
         type: Date
     }
@@ -32,7 +35,7 @@ const postSchema = new Schema({
 postSchema.methods.toJSON = function () {
     let post = this;
     let postObject = post.toObject();
-
+    
     delete postObject.author.password;
     delete postObject.author.created_at;
     delete postObject.author.confirm_at;
