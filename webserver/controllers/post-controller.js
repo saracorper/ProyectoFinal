@@ -104,9 +104,12 @@ app.get('/api/users/:userId/posts/:id', [JWTService.validate], async (req, res) 
 app.get('/api/users/:userId/posts', [ JWTService.validate ], async (req, res) => {
 
     try {
-        const userId = req.params.userId;
-        let params = userId !== 'all'? { author : userId } : {};
+        const { userId } = req.params;
 
+        const undeletedUsers = await User.find( { $or:[ { deleted: { $exists: false } }, { deleted: false } ] } ).exec();       
+        const undeletedUserIds = undeletedUsers.map(u => u._id);
+        
+        let params = userId !== 'all'? { $and: [ { author: { $in: undeletedUserIds } }, { author : userId}] } : { author: { $in: undeletedUserIds } };
         const postsDB = await Post.find(params).populate('picture').exec();
         
         return res.status(200).json(postsDB);
