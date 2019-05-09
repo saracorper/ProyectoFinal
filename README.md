@@ -17,6 +17,8 @@ La base de datos está almacenada en la nube de *Heroku* por lo que, al añadir 
 
 Ejecutar en terminal el comando "npm install".
 
+En el backend además es necesario crear una carpeta 'tmp' dentro de la carpeta principal *PROYECTOFINAL*
+
 
 ## Arranque del proyecto *Placa de Plata*
 
