@@ -51,7 +51,7 @@ app.get('/api/users/:userId/purchases', [JWTService.validate], async (req, res) 
         const userId = req.params.userId;
         const params = userId !== 'all' ? { buyer: userId } : {};
 
-        let purchasesDB = await Purchase.find(params).populate('buyer').populate('post').exec();
+        let purchasesDB = await Purchase.find(params).populate('buyer').populate({path: 'post', populate: {path: 'picture'}}).exec();
 
         return res.status(200).json(purchasesDB);
     } catch (err) {
