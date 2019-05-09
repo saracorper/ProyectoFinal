@@ -17,7 +17,7 @@ app.post('/api/login', async (req, res) => {
     
     try {
         const body = req.body;
-        const userDb = await User.findOne({ email: body.email }).exec();
+        const userDb = await User.findOne({ email: body.email }).populate('avatar').exec();
         
         if (!userDb) return res.status(404).json({ message: 'Usuario no encontrado' });
         if (userDb.deleted) return res.status(404).json({ message: 'Usuario no encontrado'});
