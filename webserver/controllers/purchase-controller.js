@@ -14,34 +14,31 @@ app.post('/api/users/:userId/purchases', [JWTService.validate], async (req, res)
 
     try {
         const userId = req.params.userId;
-        const { postId } = req.body;
-
-        const postDB = await Post.findById(postId);
-
-        if (!postDB) {
-            return res.status(404).send({
-                message: 'El post no existe'
-            });
-        }
+        const postIds = req.body.map(p => p.postId);
         
-        const purchase = new Purchase({
-            buyer: userId,
-            post: postId
+        const postDB = await Post.find({ _id: { $in: postIds } });
+        
+        if (!postDB) 
+            return res.status(404).send({ message: 'El post no existe' }); 
+        
+        let purchases = [];
+        postIds.forEach(id => {
+            const purchase = new Purchase({
+                buyer: userId,
+                post: id
+            });
+
+            purchases.push(purchase);
         });
 
-        let purchaseDB = await purchase.save();
+        let purchasesDB = await Purchase.insertMany(purchases);
+        let purchaseDbIds = purchasesDB.map(p => p._id);
 
         let buyer = await User.findById(userId).exec();
-
-        buyer.purchases.push(purchaseDB._id);
+        buyer.purchases = buyer.purchases.concat(purchaseDbIds);
         await buyer.save();
 
-        let { author } = await Post.findById(postId).populate('author').exec();
-        author.sales.push(purchaseDB._id);
-
-        await author.save();
-
-        return res.json(purchase);
+        return res.json(purchasesDB);
     } catch (err) {
         let msg = err.message || err;
         return res.status(500).json(msg);
