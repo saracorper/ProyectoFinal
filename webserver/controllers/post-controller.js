@@ -29,6 +29,7 @@ app.post('/api/users/:userId/posts', [ JWTService.validate, PostService.validate
            author: userId, 
            picture: body.picture,
            description: body.description,
+           price: body.price,
            created_at: new Date()
         });
 

@@ -17,7 +17,9 @@ const validate = (req, res, next) => {
             description: Joi.string()
                 .min(3)
                 .max(1000),
-            title: Joi.string()
+            title: Joi.string(),
+            price: Joi.number().required()
+
         };
 
         const validation = Joi.validate(body, schema);
